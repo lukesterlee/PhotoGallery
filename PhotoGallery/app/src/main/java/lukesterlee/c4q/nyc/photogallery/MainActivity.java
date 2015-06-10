@@ -1,5 +1,6 @@
 package lukesterlee.c4q.nyc.photogallery;
 
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,6 +9,8 @@ import android.widget.GridView;
 
 
 public class MainActivity extends ActionBarActivity {
+
+
 
     GridView mGridView;
 
@@ -44,5 +47,14 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private class FetchItemsTast extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            new FlickrFetchr().fetchItems();
+            return null;
+        }
     }
 }
