@@ -1,4 +1,4 @@
-package lukesterlee.c4q.nyc.chap24_remotecontrol;
+package lukesterlee.c4q.nyc.photogallery;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;
