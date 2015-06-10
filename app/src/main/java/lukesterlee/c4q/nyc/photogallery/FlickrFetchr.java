@@ -15,6 +15,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import javax.net.ssl.HttpsURLConnection;
+
 /**
  * Created by Luke on 6/10/2015.
  */
@@ -23,7 +25,7 @@ public class FlickrFetchr {
 
     public static final String TAG = "FlickrFetchr";
 
-    private static final String ENDPOINT = "http://api.flickr.com/services/rest/";
+    private static final String ENDPOINT = "https://api.flickr.com/services/rest/";
     private static final String API_KEY = "8875139edaeeb4c550f16cc684554091";
     private static final String SECRET_API_KEY = "eb6450cefdf5dfdb";
     private static final String METHOD_GET_RECENT = "flickr.photos.getRecent";
@@ -36,7 +38,7 @@ public class FlickrFetchr {
 
     byte[] getUrlBytes(String urlSpec) throws IOException {
         URL url = new URL(urlSpec);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
 
         try {
             ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -69,6 +71,7 @@ public class FlickrFetchr {
             String url = Uri.parse(ENDPOINT).buildUpon().appendQueryParameter("method", METHOD_GET_RECENT)
                     .appendQueryParameter("api_key", API_KEY).appendQueryParameter(PARAM_EXTRAS, EXTRA_SMALL_URL).build().toString();
             String xmlString = getUrl(url);
+            Log.i(TAG, xmlString);
 
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             XmlPullParser parser = factory.newPullParser();

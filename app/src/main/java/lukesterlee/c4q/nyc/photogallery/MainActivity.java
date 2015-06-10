@@ -24,8 +24,12 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
         initializeViews();
+        new FetchItemsTast().execute();
+
 
         setupAdapter();
+
+
 
     }
 
