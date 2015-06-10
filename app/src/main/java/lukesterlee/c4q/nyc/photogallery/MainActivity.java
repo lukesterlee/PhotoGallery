@@ -5,7 +5,10 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -13,6 +16,7 @@ public class MainActivity extends ActionBarActivity {
 
 
     GridView mGridView;
+    ArrayList<GalleryItem> mItems;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,6 +25,19 @@ public class MainActivity extends ActionBarActivity {
 
         initializeViews();
 
+        setupAdapter();
+
+    }
+
+    void setupAdapter() {
+        if (mGridView == null)
+            return;
+
+        if (mItems != null) {
+            mGridView.setAdapter(new ArrayAdapter<GalleryItem>(getApplicationContext(), android.R.layout.simple_gallery_item, mItems));
+        } else {
+            mGridView.setAdapter(null);
+        }
     }
 
     private void initializeViews() {
@@ -49,12 +66,18 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private class FetchItemsTast extends AsyncTask<Void, Void, Void> {
+    private class FetchItemsTast extends AsyncTask<Void, Void, ArrayList<GalleryItem>> {
 
         @Override
-        protected Void doInBackground(Void... params) {
-            new FlickrFetchr().fetchItems();
-            return null;
+        protected ArrayList<GalleryItem> doInBackground(Void... params) {
+            return new FlickrFetchr().fetchItems();
+
+        }
+
+        @Override
+        protected void onPostExecute(ArrayList<GalleryItem> galleryItems) {
+            mItems = galleryItems;
+            setupAdapter();
         }
     }
 }
